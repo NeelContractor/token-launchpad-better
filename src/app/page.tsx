@@ -1,6 +1,7 @@
 "use client"
+import dynamic from "next/dynamic";
 import { WalletDisconnectButton, WalletMultiButton } from "@solana/wallet-adapter-react-ui";
-import Launchpad from "./components/Launchpad";
+const Launchpad = dynamic(() => import("./components/Launchpad"), { ssr: false });
 
 export default function Home() {
   return (

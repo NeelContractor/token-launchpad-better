@@ -26,7 +26,7 @@ export default function Launchpad() {
     
     
     async function createToken() {
-        
+      
         if (!wallet.publicKey) {
             console.log("Connect Wallet");
             return
@@ -120,23 +120,23 @@ export default function Launchpad() {
         <div className="grid grid-cols-2 grid-rows-4 gap-3">
         <div>
           <p className="text-sm text-gray-400"><span className="text-red-600">*</span>Name:</p>
-          <input type="text" value={tokenName} onChange={(e) => setTokenName(e.target.value)} className="border border-gray-400 rounded-md bg-[#0c0c0cb5] outline-none p-2 w-80 text-xs" placeholder="Enter the name of the Token" />
+          <input type="text" onChange={(e) => setTokenName(e.target.value)} className="border border-gray-400 rounded-md bg-[#0c0c0cb5] outline-none p-2 w-80 text-xs" placeholder="Enter the name of the Token" />
         </div>
         <div>
           <p className="text-sm text-gray-400"><span className="text-red-600">*</span>Symbol:</p>
-          <input type="text" value={tokenSymbol} onChange={(e) => setTokenSymbol(e.target.value)} className="border border-gray-400 rounded-md bg-[#0c0c0cb5] outline-none p-2 w-80 text-xs" placeholder="Enter the symbol of the Token" />
+          <input type="text" onChange={(e) => setTokenSymbol(e.target.value)} className="border border-gray-400 rounded-md bg-[#0c0c0cb5] outline-none p-2 w-80 text-xs" placeholder="Enter the symbol of the Token" />
         </div>
         <div>
           <p className="text-sm text-gray-400"><span className="text-red-600">*</span>Decimals:</p>
-          <input type="text" value={tokenDecimal} onChange={(e) => setTokenDecimal(Number(e.target.value))} className="border border-gray-400 rounded-md bg-[#0c0c0cb5] outline-none p-2 w-80 text-xs" placeholder="Enter the decimals of the Token" />
+          <input type="text" onChange={(e) => setTokenDecimal(Number(e.target.value))} className="border border-gray-400 rounded-md bg-[#0c0c0cb5] outline-none p-2 w-80 text-xs" placeholder="Enter the decimals of the Token" />
         </div>
         <div>
           <p className="text-sm text-gray-400"><span className="text-red-600">*</span>Supply:</p>
-          <input type="text" value={tokenSupply} onChange={(e) => setTokenSupply(Number(e.target.value))} className="border border-gray-400 rounded-md bg-[#0c0c0cb5] outline-none p-2 w-80 text-xs" placeholder="Enter the supply of the Token" />
+          <input type="text" onChange={(e) => setTokenSupply(Number(e.target.value))} className="border border-gray-400 rounded-md bg-[#0c0c0cb5] outline-none p-2 w-80 text-xs" placeholder="Enter the supply of the Token" />
         </div>
         <div className="">
           <p className="text-sm text-gray-400"><span className="text-red-600">*</span>Image:</p>
-          <input type="file" value={tokenImage} onChange={(e) => setTokenImage(e.target.value)} className="border border-gray-400 rounded-md bg-[#0c0c0cb5] outline-none p-2 w-80 h-16 text-xs row-span-2" placeholder="Enter the image of the Token" />
+          <input type="file" onChange={(e) => setTokenImage(e.target.files?.[0]?.name || "")} className="border border-gray-400 rounded-md bg-[#0c0c0cb5] outline-none p-2 w-80 h-16 text-xs row-span-2" placeholder="Enter the image of the Token" />
         </div>
         <div className="">
           <p className="text-sm text-gray-400"><span className="text-red-600">*</span>Description:</p>
@@ -173,7 +173,11 @@ export default function Launchpad() {
       </div>
     </div>
     <div className="flex justify-center">
-        {link === null ? null : <p className="text-xl font-semibold">Associated Token Address: {link}</p>}
+    {link ? (
+      <p className="text-xl font-semibold">Associated Token Address: {link}</p>
+    ) : (
+      <p className="text-gray-400 text-sm">No token address yet.</p>
+    )}
     </div>
-    </div>
+  </div>
 }
