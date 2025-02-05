@@ -2,7 +2,7 @@
 import { createAssociatedTokenAccountInstruction, createInitializeMetadataPointerInstruction, createInitializeMintInstruction, createMintToInstruction, ExtensionType, getAssociatedTokenAddressSync, getMintLen, LENGTH_SIZE, TOKEN_2022_PROGRAM_ID, TYPE_SIZE } from "@solana/spl-token";
 import { createInitializeInstruction, pack } from "@solana/spl-token-metadata";
 import { useConnection, useWallet } from "@solana/wallet-adapter-react"
-import { Keypair, PublicKey, SystemProgram, Transaction } from "@solana/web3.js";
+import { Keypair, SystemProgram, Transaction } from "@solana/web3.js";
 import { useState } from "react";
 
 
@@ -15,9 +15,9 @@ export default function Launchpad() {
     const [tokenSupply, setTokenSupply] = useState<number>(1);
     const [tokenImage, setTokenImage] = useState<string>("");
     const [tokenDes, setTokenDes] = useState<string | null>(null);
-    const [mintAuth, setMintAuth] = useState<PublicKey | null>(null);
-    const [FreezeAuth, setFreezeAuth] = useState<PublicKey | null>(null);
-    const [updateAuth, setUpdateAuth] = useState<PublicKey | null>(null);
+    // const [mintAuth, setMintAuth] = useState<PublicKey | null>(null);
+    // const [FreezeAuth, setFreezeAuth] = useState<PublicKey | null>(null);
+    // const [updateAuth, setUpdateAuth] = useState<PublicKey | null>(null);
     const [link, setLink] = useState<string | null>(null);
 
     
@@ -26,7 +26,7 @@ export default function Launchpad() {
     
     
     async function createToken() {
-      
+
         if (!wallet.publicKey) {
             console.log("Connect Wallet");
             return
@@ -60,7 +60,7 @@ export default function Launchpad() {
                     programId: TOKEN_2022_PROGRAM_ID,
                 }),
                 createInitializeMetadataPointerInstruction(mintKeypair.publicKey, wallet.publicKey, mintKeypair.publicKey, TOKEN_2022_PROGRAM_ID),
-                createInitializeMintInstruction(mintKeypair.publicKey, tokenDecimal, wallet.publicKey, FreezeAuth, TOKEN_2022_PROGRAM_ID),
+                createInitializeMintInstruction(mintKeypair.publicKey, tokenDecimal, wallet.publicKey, wallet.publicKey, TOKEN_2022_PROGRAM_ID),
                 createInitializeInstruction({
                     programId: TOKEN_2022_PROGRAM_ID,
                     mint: mintKeypair.publicKey,
