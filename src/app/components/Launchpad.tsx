@@ -5,10 +5,15 @@ import { useConnection, useWallet } from "@solana/wallet-adapter-react"
 import { Keypair, SystemProgram, Transaction } from "@solana/web3.js";
 import { useState, useEffect } from "react";
 
-
-export default function Launchpad({ launchpadId }: {
+/** 
+ * { launchpadId }: {
   launchpadId: string
-}) {
+}
+id={launchpadId}
+nav functionality
+*/
+
+export default function Launchpad() {
     const wallet = useWallet();
     const { connection } = useConnection();
     const [tokenName, setTokenName] = useState<string>("");
@@ -115,7 +120,7 @@ export default function Launchpad({ launchpadId }: {
     }
 
     return <div>
-        <div id={launchpadId} className="grid justify-center mb-5 gap-4 border rounded-lg border-white p-10 bg-[#0c0c0ca3] mx-48 shadow-[4px_4px_3px_rgb(211,211,211,1)]"> 
+        <div  className="grid justify-center mb-5 gap-4 border rounded-lg border-white p-10 bg-[#0c0c0ca3] mx-48 shadow-[4px_4px_3px_rgb(211,211,211,1)]"> 
             <div className="grid justify-center pb-5">
                 <h1 className="font-extrabold text-4xl font-sans text-center">Solana Token Launchpad</h1>
                 <p className="text-center text-xs text-gray-400">Easily create your own Solana SPL-Token in few steps without coding.</p>
