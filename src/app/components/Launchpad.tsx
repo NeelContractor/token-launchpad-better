@@ -1,8 +1,9 @@
 "use client"
+import React from "react";
 import { createAssociatedTokenAccountInstruction, createInitializeMetadataPointerInstruction, createInitializeMintInstruction, createMintToInstruction, ExtensionType, getAssociatedTokenAddressSync, getMintLen, LENGTH_SIZE, TOKEN_2022_PROGRAM_ID, TYPE_SIZE } from "@solana/spl-token";
 import { createInitializeInstruction, pack } from "@solana/spl-token-metadata";
 import { useConnection, useWallet } from "@solana/wallet-adapter-react"
-import { Keypair, SystemProgram, Transaction } from "@solana/web3.js";
+import { Connection, Keypair, SystemProgram, Transaction } from "@solana/web3.js";
 import { useState, useEffect } from "react";
 
 /** 
@@ -15,7 +16,7 @@ nav functionality
 
 export default function Launchpad() {
     const wallet = useWallet();
-    const { connection } = useConnection();
+    const connection = new Connection("https://api.devnet.solana.com", "confirmed");
     const [tokenName, setTokenName] = useState<string>("");
     const [tokenSymbol, setTokenSymbol] = useState<string>("");
     const [tokenDecimal, setTokenDecimal] = useState<number>(9);
@@ -26,7 +27,6 @@ export default function Launchpad() {
     // const [FreezeAuth, setFreezeAuth] = useState<PublicKey | null>(null);
     // const [updateAuth, setUpdateAuth] = useState<PublicKey | null>(null);
     const [link, setLink] = useState<string | null>(null);
-
 
     useEffect(() => {
       if (!wallet.publicKey) {
@@ -41,7 +41,7 @@ export default function Launchpad() {
           return
       }
       
-      try {
+      // try {
           const mintKeypair = Keypair.generate();
           console.log(`Mint generated keypair: ${mintKeypair.publicKey.toBase58()}`);
 
@@ -57,7 +57,11 @@ export default function Launchpad() {
           const mintLen = getMintLen([ExtensionType.MetadataPointer]);
           const metadataLen = TYPE_SIZE + LENGTH_SIZE + pack(metadata).length;
 
+          console.log(mintLen);
+          console.log(metadataLen);
+          
           const lamports = await connection.getMinimumBalanceForRentExemption(mintLen + metadataLen);
+          console.log(lamports);
 
           const transaction = new Transaction().add(
               SystemProgram.createAccount({
@@ -114,9 +118,9 @@ export default function Launchpad() {
           );
 
           await wallet.sendTransaction(transaction3, connection);
-      } catch (error) {
-          console.error(`Error while creating token: ${error}`);
-      }
+      // } catch (error) {
+      //     console.error(`Error while creating token: ${error}`);
+      // }
     }
 
     return <div>
@@ -152,29 +156,6 @@ export default function Launchpad() {
         </div>
       </div>
       <div>
-        {/* <div className="grid">
-          <h1 className="font-extrabold text-2xl font-sans text-left">Revoke any Authority?</h1>
-          <div className="flex">
-            <p className="text-center text-xs text-gray-400">Solana Token Program has 3 authorities; Freeze, Mint and Update authorities. Revoke them for attracting more investors.</p>
-          </div>
-        </div>
-        <div className="flex justify-between gap-2 ">
-          <div className="flex items-center me-4 py-5">
-            <label className="ms-2 text-sm font-medium text-gray-900 dark:text-gray-300">
-              <input type="checkbox" value="" onClick={setFreezeAuth(wallet.publicKey ?? null)} className="w-4 h-4  bg-gray-100 border-gray-300 rounded" />
-            Freeze Authority</label>
-          </div>
-          <div className="flex items-center me-4 py-5">
-            <label className="ms-2 text-sm font-medium text-gray-900 dark:text-gray-300">
-              <input type="checkbox" value="" className="w-4 h-4  bg-gray-100 border-gray-300 rounded" />
-            Mint Authority</label>
-          </div>
-          <div className="flex items-center me-4 py-5">
-            <label className="ms-2 text-sm font-medium text-gray-900 dark:text-gray-300 ">
-              <input type="checkbox" value="" className="w-4 h-4  bg-gray-100 border-gray-300 rounded" />
-            Update Authority</label>
-          </div>
-        </div> */}
         <div className="flex justify-center pt-5">
           <button onClick={createToken} className="p-5 rounded-full text-xl font-extrabold border bg-green-600 border-green-800 hover:bg-green-900">Create Token</button>
         </div>

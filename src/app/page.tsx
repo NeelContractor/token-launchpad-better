@@ -33,7 +33,13 @@ export default function Home() {
             <button onClick={() => handlerOnClick("launchpad-id")} className="text-xl font-bold p-3 rounded-full bg-[#512da8] hover:bg-[#1a1f2e]">Create Token</button>
             <button onClick={() => handlerOnClick("token-pool-id")} className="text-xl font-bold p-3 rounded-full bg-[#512da8] hover:bg-[#1a1f2e]">Create Token Pool</button>
         </nav> */}
+        
         <WalletMultiButton />
+      </div>
+      <div>
+        <span className="flex justify-center text-lg font-bold">
+          Network: Devnet
+        </span>
       </div>
       <Launchpad />
       {/* <Launchpad launchpadId={launchpadId} /> */}
